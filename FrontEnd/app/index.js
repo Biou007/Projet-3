@@ -34,32 +34,35 @@ const works = [
   },
 ];
 
-async function afficherOeuvres(listeOeuvres) {
-  const reponse = await fetch("localhost:5678/api/works");
+async function afficherOeuvres() {
+  // Récupération des œuvres depuis l'API
+  const reponse = await fetch("http://localhost:5678/api/works");
   const travaux = await reponse.json();
 
-  // Vider la galerie avant d'ajouter de nouvelles œuvres
-  gallery.innerHTML = "";
+  // Sélection du container galerie
+  const gallery = document.querySelector(".gallery");
+  gallery.innerHTML = ""; // vider la galerie avant ajout
 
-  for (let i = 0; i < listeOeuvres.length; i++) {
-    const gallery = document.querySelector(".gallery");
-    const oeuvre = listeOeuvres[i];
+  // Parcours et affichage de chaque œuvre
+  travaux.forEach((oeuvre) => {
     const figure = document.createElement("figure");
-    const img = document.createElement("img");
 
+    const img = document.createElement("img");
     img.src = oeuvre.imageUrl;
     img.alt = oeuvre.title;
 
     const figcaption = document.createElement("figcaption");
     figcaption.textContent = oeuvre.title;
 
+    // Assemblage
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
-  }
+  });
 }
 
-afficherOeuvres(works);
+// Appel de la fonction
+afficherOeuvres();
 
 // TODO : ecrire une fonction qui prend en paramètre, une liste d'oeuvres, et met à jour le DOM pour construire chaque élément HTML représentant une oeuvre
 // Et ajouter cette liste dans l'élement HTML qui contient cette liste d'oeuvre
