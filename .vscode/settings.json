@@ -1,3 +1,4 @@
-{ 
-    "liveServer.settings.ignoreFiles": ["Backend/**"] 
+{
+  "git.ignoreLimitWarning": true,
+  "liveServer.settings.root": "./FrontEnd"
 }
