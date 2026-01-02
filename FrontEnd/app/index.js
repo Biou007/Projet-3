@@ -34,17 +34,21 @@ const works = [
   },
 ];
 
-async function afficherOeuvres() {
-  // Récupération des œuvres depuis l'API
+// Pour stocker les travaux
+let travaux = [];
+
+// Récupérer les travaux depuis l'API
+async function recupererOeuvres() {
   const reponse = await fetch("http://localhost:5678/api/works");
-  const travaux = await reponse.json();
+  travaux = await reponse.json();
+}
 
-  // Sélection du container galerie
+// Fonction pour afficher les œuvres
+function afficherOeuvres(oeuvres) {
   const gallery = document.querySelector(".gallery");
-  gallery.innerHTML = ""; // vider la galerie avant ajout
+  gallery.innerHTML = "";
 
-  // Parcours et affichage de chaque œuvre
-  travaux.forEach((oeuvre) => {
+  oeuvres.forEach((oeuvre) => {
     const figure = document.createElement("figure");
 
     const img = document.createElement("img");
@@ -54,15 +58,62 @@ async function afficherOeuvres() {
     const figcaption = document.createElement("figcaption");
     figcaption.textContent = oeuvre.title;
 
-    // Assemblage
     figure.appendChild(img);
     figure.appendChild(figcaption);
     gallery.appendChild(figure);
   });
 }
 
-// Appel de la fonction
-afficherOeuvres();
+// Fonction pour afficher les filtres
+async function afficherFiltres() {
+  const reponse = await fetch("http://localhost:5678/api/categories");
+  const categories = await reponse.json();
+
+  const sectionFiltres = document.querySelector(".filtres");
+  sectionFiltres.innerHTML = "";
+
+  // Bouton "Tous"
+  const btnTous = document.createElement("button");
+  btnTous.textContent = "Tous";
+  btnTous.classList.add("active");
+  btnTous.addEventListener("click", () => {
+    afficherOeuvres(travaux);
+    activerBouton(btnTous);
+  });
+  sectionFiltres.appendChild(btnTous);
+
+  // Boutons par catégorie
+  categories.forEach((categorie) => {
+    const bouton = document.createElement("button");
+    bouton.textContent = categorie.name;
+
+    bouton.addEventListener("click", () => {
+      const travauxFiltres = travaux.filter(
+        (oeuvre) => oeuvre.categoryId === categorie.id
+      );
+      afficherOeuvres(travauxFiltres);
+      activerBouton(bouton);
+    });
+
+    sectionFiltres.appendChild(bouton);
+  });
+}
+
+// Fonction pour gérer le bouton actif
+function activerBouton(boutonActif) {
+  const boutons = document.querySelectorAll(".filtres button");
+  boutons.forEach((btn) => btn.classList.remove("active"));
+  boutonActif.classList.add("active");
+}
+
+// Initialisation de l'application
+async function init() {
+  await recupererOeuvres();
+  afficherOeuvres(travaux);
+  afficherFiltres();
+}
+
+init();
 
 // TODO : ecrire une fonction qui prend en paramètre, une liste d'oeuvres, et met à jour le DOM pour construire chaque élément HTML représentant une oeuvre
 // Et ajouter cette liste dans l'élement HTML qui contient cette liste d'oeuvre
