@@ -1,49 +1,38 @@
-const works = [
-  {
-    id: "1",
-    title: "Une oeuvre A",
-    imageUrl: "https://picsum.photos/200/300",
-    categoryId: 1,
-    userId: 1,
-    category: {
-      id: 1,
-      name: "Nature",
-    },
-  },
-  {
-    id: "3",
-    title: "Une oeuvre B",
-    imageUrl: "https://picsum.photos/200/300",
-    categoryId: 1,
-    userId: 1,
-    category: {
-      id: 1,
-      name: "Nature",
-    },
-  },
-  {
-    id: "3",
-    title: "Une oeuvre C",
-    imageUrl: "https://picsum.photos/200/300",
-    categoryId: 2,
-    userId: 1,
-    category: {
-      id: 2,
-      name: "Animal",
-    },
-  },
-];
-
-// Pour stocker les travaux
 let travaux = [];
+let categories = [];
 
-// Récupérer les travaux depuis l'API
+// -------------------------------
+// API - récupération des données
+// -------------------------------
+
 async function recupererOeuvres() {
-  const reponse = await fetch("http://localhost:5678/api/works");
-  travaux = await reponse.json();
+  try {
+    const reponse = await fetch("http://localhost:5678/api/works");
+    if (!reponse.ok)
+      throw new Error("Erreur lors de la récupération des œuvres");
+    return await reponse.json();
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 }
 
-// Fonction pour afficher les œuvres
+async function recupererCategories() {
+  try {
+    const reponse = await fetch("http://localhost:5678/api/categories");
+    if (!reponse.ok)
+      throw new Error("Erreur lors de la récupération des catégories");
+    return await reponse.json();
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+}
+
+// -------------------------------
+// Affichage des œuvres et filtres
+// -------------------------------
+
 function afficherOeuvres(oeuvres) {
   const gallery = document.querySelector(".gallery");
   gallery.innerHTML = "";
@@ -64,67 +53,101 @@ function afficherOeuvres(oeuvres) {
   });
 }
 
-// Fonction pour afficher les filtres
-async function afficherFiltres() {
-  const reponse = await fetch("http://localhost:5678/api/categories");
-  const categories = await reponse.json();
-
+async function afficherFiltres(categories) {
   const sectionFiltres = document.querySelector(".filtres");
   sectionFiltres.innerHTML = "";
 
   // Bouton "Tous"
   const btnTous = document.createElement("button");
   btnTous.textContent = "Tous";
-  btnTous.classList.add("active");
-  btnTous.addEventListener("click", () => {
-    afficherOeuvres(travaux);
-    activerBouton(btnTous);
-  });
+  btnTous.classList.add("active", "all-filter");
+  btnTous.dataset.id = "all"; // data-id pour fiabilité
   sectionFiltres.appendChild(btnTous);
 
   // Boutons par catégorie
   categories.forEach((categorie) => {
     const bouton = document.createElement("button");
     bouton.textContent = categorie.name;
-
-    bouton.addEventListener("click", () => {
-      const travauxFiltres = travaux.filter(
-        (oeuvre) => oeuvre.categoryId === categorie.id
-      );
-      afficherOeuvres(travauxFiltres);
-      activerBouton(bouton);
-    });
-
+    bouton.dataset.id = categorie.id;
     sectionFiltres.appendChild(bouton);
   });
 }
 
-// Fonction pour gérer le bouton actif
+// -------------------------------
+// Gestion des filtres
+// -------------------------------
+
 function activerBouton(boutonActif) {
   const boutons = document.querySelectorAll(".filtres button");
   boutons.forEach((btn) => btn.classList.remove("active"));
   boutonActif.classList.add("active");
 }
 
-// Initialisation de l'application
-async function init() {
-  await recupererOeuvres();
-  afficherOeuvres(travaux);
-  afficherFiltres();
+function gestionChoixFiltres() {
+  const filtreBoutons = document.querySelectorAll(".filtres button");
+
+  filtreBoutons.forEach((bouton) => {
+    bouton.addEventListener("click", () => {
+      const categoryIdSelected = bouton.dataset.id;
+
+      const travauxFiltres = travaux.filter((oeuvre) => {
+        if (categoryIdSelected === "all") return true;
+        return parseInt(oeuvre.categoryId) === parseInt(categoryIdSelected);
+      });
+
+      afficherOeuvres(travauxFiltres);
+      activerBouton(bouton);
+    });
+  });
+}
+function activerModeEdition() {
+  const token = localStorage.getItem("token");
+  if (!token) return; // si pas connecté, on sort
+
+  // 1️⃣ Afficher le bandeau noir
+  const bandeau = document.querySelector(".bandeau-edition");
+  if (bandeau) bandeau.style.display = "flex";
+
+  // 2️⃣ Remplacer "login" par "logout"
+  const loginLink = document.querySelector('nav a[href="login.html"]');
+  if (loginLink) {
+    loginLink.textContent = "logout";
+    loginLink.href = "#";
+
+    // 3️⃣ Déconnexion
+    loginLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      localStorage.removeItem("token"); // supprime le token
+      window.location.reload(); // recharge la page
+    });
+  }
+
+  // 4️⃣ Cacher les filtres
+  const filtres = document.querySelector(".filtres");
+  if (filtres) {
+    filtres.style.display = "none";
+    filtres.style.pointerEvents = "none"; // désactive clic
+  }
+
+  // 5️⃣ Afficher le bouton "Modifier"
+  const editProjects = document.querySelector(".edit-projects");
+  if (editProjects) editProjects.style.display = "block";
 }
 
-init();
+// -------------------------------
+// Initialisation
+// -------------------------------
 
-// TODO : ecrire une fonction qui prend en paramètre, une liste d'oeuvres, et met à jour le DOM pour construire chaque élément HTML représentant une oeuvre
-// Et ajouter cette liste dans l'élement HTML qui contient cette liste d'oeuvre
-// - le container de la gallerie d'oeuvre sera la classe .gallery
-// - La structure html d'une oeuvre commence par l'élément html <figure>
-// Avec javascript, trouver un moyen de boucler sur le tableau de données des oeuvres, pour créer l'élément html figure et tous les sous-éléments, puis ajouter cet élément à la gallerie
-//
-// Voir du côté de la boucle for ou alors du Array.forEach
-// Voir également createElement ou utiliser un templateHTML
-// Voir querySelector pour récupérer des éléments du DOM
-// Voir appendChild pour ajouter un élément dans un autre élément HTML
-// Voir comment modifier les attributs d'un élément HTML
-//
-// J'ai une liste de données => Briques HTML
+async function init() {
+  travaux = await recupererOeuvres();
+  afficherOeuvres(travaux);
+
+  categories = await recupererCategories();
+  await afficherFiltres(categories);
+
+  gestionChoixFiltres();
+  activerModeEdition();
+}
+
+// Lancement
+init();

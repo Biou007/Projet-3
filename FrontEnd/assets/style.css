@@ -133,6 +133,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  background-color: #fffef8;
 }
 header {
   display: flex;
@@ -164,6 +165,7 @@ h2 {
   font-size: 30px;
   color: #1d6154;
 }
+
 nav ul {
   display: flex;
   align-items: center;
@@ -176,6 +178,13 @@ nav li {
 
 li:hover {
   color: #b1663c;
+}
+li a {
+  text-decoration: none;
+  color: black;
+}
+li:hover {
+  font-weight: 900;
 }
 #introduction {
   display: flex;
@@ -271,22 +280,143 @@ footer nav ul {
   display: flex;
   gap: 10px;
   margin: 50px;
+  justify-content: center;
 }
 
 .filtres button {
   display: flex;
+  border: 1px solid #1d6154;
   justify-content: center;
   align-items: center;
   background-color: white;
   color: #1d6154;
   border-radius: 60px;
   gap: 5px;
-  flex: 1 1 0;
-  height: 30px;
-  margin: auto;
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
 }
 
 .filtres button.active {
-  background-color: #000;
+  background-color: #1d6154;
   color: #fff;
+}
+
+/***Formulaire de connexion***/
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login h2 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 45px;
+  margin-top: 100px;
+  font-size: 30px;
+}
+form input {
+  display: flex;
+  max-width: 379px;
+  width: 100%;
+  height: 42px;
+  margin-bottom: 20px;
+  background-color: white;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+form label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #3d3d3d;
+  max-width: 379px;
+  width: 100%;
+}
+form button {
+  font-family: "Syne";
+  border: 1px solid #1d6154;
+  background-color: #1d6154;
+  border-radius: 60px;
+  color: white;
+  width: 180px;
+  height: 36px;
+  margin-top: 35px;
+  margin: 20px auto 0 auto;
+}
+.login a {
+  display: flex;
+  justify-content: center;
+  color: #3d3d3d;
+  margin-top: 30px;
+}
+nav ul li a.active {
+  font-weight: 900;
+  color: #000;
+}
+.footer-login {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  padding-left: 80px;
+}
+footer nav ul {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
+}
+.footer-login li {
+  font-family: "Work Sans";
+  font-size: 12px;
+  margin-top: 260px;
+}
+.messageErreur {
+  margin-top: 10px;
+  color: red;
+  font-weight: bold;
+}
+
+/** Bouton Modifier**/
+.portfolio-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 30px;
+}
+.portfolio-header h2 {
+  margin: 0;
+}
+.edit-btn {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  border: none;
+  background-color: #fffef8;
+  font-family: "Work sans";
+  font-size: 14px;
+  width: 58px;
+  height: 16px;
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+.edit-projects {
+  display: none;
+}
+
+/** Bandeau Edition **/
+.bandeau-edition {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 59px;
+  background-color: black;
+  color: white;
+  gap: 10px;
+  font-family: "Work Sans";
+  font-size: 16px;
+  z-index: 1000;
 }
