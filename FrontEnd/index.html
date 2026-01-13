@@ -171,5 +171,69 @@
         </ul>
       </nav>
     </footer>
+
+    <!-- MODALE -->
+    <!-- MODALE GALERIE -->
+    <section class="modal modal-gallery" aria-hidden="true">
+      <div class="overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="btnClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <h2>Galerie photo</h2>
+
+        <div class="container-gallery">
+          <div class="gallery-wrapper">
+            <div class="modal-gallery-container"></div>
+            <div class="gallery-separator"></div>
+          </div>
+          <button type="button" class="btnAddPhoto">Ajouter une photo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODALE FORMULAIRE -->
+    <section class="modal modal-form" aria-hidden="true">
+      <div class="overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="btnBack">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="btnClose"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <h2>Ajout photo</h2>
+
+        <div class="container-form">
+          <form action="#">
+            <div class="upload-photo">
+              <i class="fa-regular fa-image"></i>
+              <label for="photo" class="btn-upload">+ Ajouter photo</label>
+              <input
+                type="file"
+                id="photo"
+                name="photo"
+                accept="image/png, image/jpeg"
+              />
+              <p class="upload-info">jpg, png : 4mo max</p>
+            </div>
+
+            <div class="form-group">
+              <label for="titre">Titre</label>
+              <input type="text" id="titre" name="titre" />
+              <label for="categorie">Catégorie</label>
+              <select id="categorie" name="categorie">
+                <option value=""></option>
+              </select>
+            </div>
+
+            <div class="form-separator"></div>
+            <button type="submit">Valider</button>
+          </form>
+        </div>
+      </div>
+    </section>
   </body>
 </html>

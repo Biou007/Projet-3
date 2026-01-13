@@ -245,18 +245,23 @@ li:hover {
   flex-direction: column;
 }
 
-#contact input {
+#contact input,
+#contact textarea {
+  width: 100%;
+  max-width: 379px;
   height: 50px;
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
 }
+
 #contact label {
   margin: 2em 0 1em 0;
 }
+
 #contact textarea {
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  height: auto;
 }
 
 input[type="submit"] {
@@ -315,7 +320,7 @@ form {
   margin-top: 100px;
   font-size: 30px;
 }
-form input {
+.login-form input {
   display: flex;
   max-width: 379px;
   width: 100%;
@@ -325,14 +330,14 @@ form input {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-form label {
+.login-form label {
   margin-bottom: 8px;
   font-weight: 600;
   color: #3d3d3d;
   max-width: 379px;
   width: 100%;
 }
-form button {
+.login-form button {
   font-family: "Syne";
   border: 1px solid #1d6154;
   background-color: #1d6154;
@@ -419,4 +424,261 @@ footer nav ul {
   font-family: "Work Sans";
   font-size: 16px;
   z-index: 1000;
+}
+
+/*****Modale*****/
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+.hidden {
+  display: none;
+}
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  z-index: 2;
+}
+.modal-content h2 {
+  display: flex;
+  justify-content: center;
+  color: #000;
+  font-size: 26px;
+  font-family: "Work sans";
+  font-weight: 400;
+  margin-top: 30px;
+}
+.modal-content .btnBack {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+.modal-content .btnClose {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/******Galerie******/
+.container-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+/* Grille des photos */
+.container-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+.gallery-wrapper {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.container-gallery .modal-gallery-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 25px 10px;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.modal-figure {
+  position: relative;
+  width: 100%;
+}
+.modal-figure img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.btn-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 3px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: none;
+}
+.gallery-separator {
+  width: 100%;
+  height: 2px;
+  background-color: #b3b3b3;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+/*Bouton Ajouter une photo*/
+.container-gallery .btnAddPhoto {
+  height: 36px;
+  padding: 0 45px;
+  border-radius: 60px;
+  border: none;
+  background-color: #1d6154;
+  color: white;
+  font-family: "Syne";
+  font-weight: 400;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/*****Formulaire*****/
+.container-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.container-form form {
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  width: 100%;
+  gap: 20px;
+  align-items: stretch;
+}
+.container-form label {
+  font-size: 14px;
+  font-family: "Work Sans";
+}
+.container-form select {
+  height: 45px;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: "Work Sans";
+  background-color: white;
+  cursor: pointer;
+}
+.container-form button {
+  align-self: center;
+  margin-top: 20px;
+  height: 36px;
+  padding: 0 75px;
+  border-radius: 60px;
+  border: none;
+  background-color: #a3a2a2;
+  color: white;
+  font-family: "Syne";
+  font-size: 14px;
+  cursor: pointer;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto 20px auto;
+}
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #3d3d3d;
+  text-align: left;
+}
+.upload-photo,
+.form-group,
+.form-separator {
+  width: 100%;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 45px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: "Work Sans";
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin-bottom: 18px;
+}
+
+.upload-photo {
+  background-color: #e8f1f6;
+  height: 170px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+.upload-photo i {
+  font-size: 60px;
+  color: #b9c5cc;
+  margin-top: 15px;
+}
+.btn-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #cbd6dc;
+  color: #306685;
+  font-family: "Work Sans";
+  font-size: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  height: 36px;
+  max-width: 150px;
+  padding: 0 20px;
+}
+.upload-photo input[type="file"] {
+  display: none;
+}
+.upload-info {
+  font-size: 10px;
+  color: #444;
+  margin-bottom: 20px;
+}
+.form-separator {
+  height: 2px;
+  background-color: #b3b3b3;
+}
+.container-form input,
+.container-form select {
+  box-sizing: border-box;
 }
