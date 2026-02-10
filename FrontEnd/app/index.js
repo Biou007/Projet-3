@@ -71,9 +71,7 @@ function afficherFiltres(categories) {
   });
 }
 
-// -------------------------------
 // Gestion des filtres
-// -------------------------------
 function activerBouton(boutonActif) {
   const boutons = document.querySelectorAll(".filtres button");
   boutons.forEach((btn) => btn.classList.remove("active"));
@@ -96,9 +94,7 @@ function gestionChoixFiltres() {
   });
 }
 
-// -------------------------------
 // Mode édition
-// -------------------------------
 function activerModeEdition() {
   const token = localStorage.getItem("token");
   if (!token) return;
@@ -159,7 +155,7 @@ function initModales() {
   const btnBackForm = modalForm.querySelector(".btnBack");
   const btnAddPhoto = modalGalerie.querySelector(".btnAddPhoto");
   const modalGalleryContainer = modalGalerie.querySelector(
-    ".modal-gallery-container"
+    ".modal-gallery-container",
   );
 
   btnBackForm.addEventListener("click", () => {
@@ -172,7 +168,7 @@ function initModales() {
 
   function afficherOeuvresModal(oeuvres) {
     const modalGalleryContainer = document.querySelector(
-      ".modal-gallery-container"
+      ".modal-gallery-container",
     );
     const galleryMain = document.querySelector(".gallery");
 
@@ -181,7 +177,7 @@ function initModales() {
     oeuvres.forEach((oeuvre) => {
       const figure = document.createElement("figure");
       figure.classList.add("modal-figure");
-      figure.dataset.id = oeuvre.id; // stocker l'id
+      figure.dataset.id = oeuvre.id;
 
       const img = document.createElement("img");
       img.src = oeuvre.imageUrl;
@@ -193,7 +189,7 @@ function initModales() {
 
       // Listener suppression
       btnDelete.addEventListener("click", async (e) => {
-        e.stopPropagation(); // éviter les clics sur la figure
+        e.stopPropagation();
         const token = localStorage.getItem("token");
         if (!token) return;
 
@@ -205,7 +201,7 @@ function initModales() {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
           if (!res.ok) throw new Error("Impossible de supprimer ce projet");
 
@@ -214,8 +210,9 @@ function initModales() {
 
           // Retirer le même projet de la galerie principale
           const figureMain = galleryMain.querySelector(
-            `figure img[src='${oeuvre.imageUrl}']`
+            `figure img[src='${oeuvre.imageUrl}']`,
           )?.parentElement;
+
           if (figureMain) figureMain.remove();
 
           // Supprimer du tableau travaux
@@ -399,13 +396,14 @@ function initModales() {
 // Initialisation
 // -------------------------------
 async function init() {
-  // Toujours repartir d’un état propre
   resetModales();
 
   travaux = await recupererOeuvres();
+
   afficherOeuvres(travaux);
 
   categories = await recupererCategories();
+
   afficherFiltres(categories);
   gestionChoixFiltres();
   activerModeEdition();
